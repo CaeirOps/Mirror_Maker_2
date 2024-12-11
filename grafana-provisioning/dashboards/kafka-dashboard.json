@@ -1,0 +1,47 @@
+{
+    "title": "Kafka Replication Dashboard",
+    "panels": [
+      {
+        "type": "graph",
+        "title": "Replication Latency",
+        "targets": [
+          {
+            "expr": "kafka_mirror_replication_latency_ms",
+            "legendFormat": "{{job}}"
+          }
+        ]
+      },
+      {
+        "type": "graph",
+        "title": "Offset Syncs",
+        "targets": [
+          {
+            "expr": "kafka_checkpoint_offset_syncs",
+            "legendFormat": "{{job}}"
+          }
+        ]
+      },
+      {
+        "type": "graph",
+        "title": "Messages Replicated",
+        "targets": [
+          {
+            "expr": "kafka_connect_task_total_messages",
+            "legendFormat": "{{task}}"
+          }
+        ]
+      },
+      {
+        "type": "singlestat",
+        "title": "Total Topics",
+        "targets": [
+          {
+            "expr": "sum(kafka_server_topic_partition_count)",
+            "legendFormat": "Total Topics"
+          }
+        ],
+        "format": "none",
+        "valueName": "current"
+      }
+    ]
+  }
