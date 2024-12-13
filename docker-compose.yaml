@@ -60,5 +60,3 @@ services:
       - KAFKA_CLUSTERS_0_NAME=teste-1
       - KAFKA_CLUSTERS_1_BOOTSTRAPSERVERS=${TARGET_BROKER}
       - KAFKA_CLUSTERS_1_NAME=teste-2
-      - KAFKA_HEAP_OPTS="-Xms512m -Xmx512m"
-      - JAVA_OPTS="-Xms512m -Xmx512m"
