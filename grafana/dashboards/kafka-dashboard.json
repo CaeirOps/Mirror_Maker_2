@@ -1,11 +1,11 @@
 {
   "dashboard": {
     "id": null,
-    "uid": "kafka-dashboard",
+    "uid": "kafka-cluster-overview",
     "title": "Kafka Cluster Overview",
     "timezone": "browser",
     "schemaVersion": 36,
-    "version": 1,
+    "version": 0,
     "refresh": "10s",
     "panels": [
       {
