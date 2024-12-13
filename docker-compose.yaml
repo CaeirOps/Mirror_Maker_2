@@ -29,8 +29,6 @@ services:
       - "9308:9308"
     environment:
       KAFKA_BROKERS: "${SOURCE_BROKER},${TARGET_BROKER}"
-    depends_on:
-      - kafka-mirror-maker
 
   prometheus:
     image: prom/prometheus:latest
