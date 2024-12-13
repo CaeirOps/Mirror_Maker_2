@@ -9,9 +9,9 @@ services:
       KAFKA_HEAP_OPTS: "-Xms512m -Xmx512m"
       SOURCE_BROKER: ${SOURCE_BROKER}
       TARGET_BROKER: ${TARGET_BROKER}
-      JMX_PORT: "7071"
+      JMX_PORT: 7071
       KAFKA_JMX_OPTS: >
-        -Dcom.sun.management.jmxremote
+        -Dcom.sun.management.jmxremote=ture
         -Dcom.sun.management.jmxremote.authenticate=false
         -Dcom.sun.management.jmxremote.ssl=false
         -Dcom.sun.management.jmxremote.port=7071
