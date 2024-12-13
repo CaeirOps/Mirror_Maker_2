@@ -26,9 +26,11 @@ services:
     container_name: kafka-exporter
     ports:
       - "9308:9308"
-    environment:
-      KAFKA_BROKERS: ${SOURCE_BROKER},${TARGET_BROKER}
-    command: ["--kafka.server=${KAFKA_BROKERS}"]
+    command: 
+      - "--kafka.server=${SOURCE_BROKER_1}"
+      - "--kafka.server=${SOURCE_BROKER_2}"
+      - "--kafka.server=${TARGET_BROKER_1}"
+      - "--kafka.server=${TARGET_BROKER_2}"
 
   prometheus:
     image: prom/prometheus:latest
