@@ -28,8 +28,7 @@ services:
       - "9308:9308"
     environment:
       KAFKA_BROKERS: ${SOURCE_BROKER},${TARGET_BROKER}
-    command:
-      - "--kafka.server=$KAFKA_BROKERS"
+    command: ["--kafka.server=${KAFKA_BROKERS}"]
 
   prometheus:
     image: prom/prometheus:latest
