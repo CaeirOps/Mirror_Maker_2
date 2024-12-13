@@ -1,71 +1,79 @@
 {
-  "id": null,
-  "title": "Kafka Cluster Overview",
-  "tags": ["kafka", "monitoring"],
-  "timezone": "browser",
-  "schemaVersion": 16,
-  "version": 1,
-  "refresh": "10s",
-  "panels": [
-    {
-      "title": "Total Topics per Cluster",
-      "type": "stat",
-      "gridPos": {"x": 0, "y": 0, "w": 6, "h": 4},
-      "targets": [
-        {
-          "expr": "sum by(cluster) (kafka_topics)",
-          "legendFormat": "{{cluster}}",
-          "refId": "A"
-        }
-      ]
+  "dashboard": {
+    "id": null,
+    "uid": null,
+    "title": "Kafka Exporter Dashboard",
+    "panels": [
+      {
+        "type": "stat",
+        "title": "Total Topics",
+        "targets": [
+          {
+            "expr": "sum(kafka_topic_count)",
+            "format": "time_series"
+          }
+        ]
+      },
+      {
+        "type": "stat",
+        "title": "Total Partitions",
+        "targets": [
+          {
+            "expr": "sum(kafka_partition_count)",
+            "format": "time_series"
+          }
+        ]
+      },
+      {
+        "type": "stat",
+        "title": "Consumer Group Lag",
+        "targets": [
+          {
+            "expr": "sum(kafka_consumergroup_group_lag) by (group)",
+            "format": "time_series"
+          }
+        ]
+      },
+      {
+        "type": "graph",
+        "title": "Messages In per Second",
+        "targets": [
+          {
+            "expr": "rate(kafka_topic_partition_current_offset[1m])",
+            "format": "time_series"
+          }
+        ]
+      },
+      {
+        "type": "stat",
+        "title": "Total Consumers per Group",
+        "targets": [
+          {
+            "expr": "count(kafka_consumergroup_current_offset)",
+            "format": "time_series"
+          }
+        ]
+      },
+      {
+        "type": "stat",
+        "title": "Broker Count",
+        "targets": [
+          {
+            "expr": "kafka_broker_count",
+            "format": "time_series"
+          }
+        ]
+      }
+    ],
+    "templating": {
+      "list": []
     },
-    {
-      "title": "Total Partitions per Cluster",
-      "type": "stat",
-      "gridPos": {"x": 6, "y": 0, "w": 6, "h": 4},
-      "targets": [
-        {
-          "expr": "sum by(cluster) (kafka_partitions)",
-          "legendFormat": "{{cluster}}",
-          "refId": "B"
-        }
-      ]
+    "annotations": {
+      "list": []
     },
-    {
-      "title": "Consumer Group Lag per Cluster",
-      "type": "time-series",
-      "gridPos": {"x": 0, "y": 4, "w": 12, "h": 6},
-      "targets": [
-        {
-          "expr": "sum by(cluster, group) (kafka_consumer_group_lag)",
-          "legendFormat": "{{cluster}} - {{group}}",
-          "refId": "C"
-        }
-      ]
-    },
-    {
-      "title": "Messages In per Second",
-      "type": "stat",
-      "gridPos": {"x": 0, "y": 10, "w": 6, "h": 4},
-      "targets": [
-        {
-          "expr": "rate(kafka_messages_in[1m])",
-          "legendFormat": "{{cluster}}",
-          "refId": "D"
-        }
-      ]
-    },
-    {
-      "title": "Messages Out per Second",
-      "type": "stat",
-      "gridPos": {"x": 6, "y": 10, "w": 6, "h": 4},
-      "targets": [
-        {
-          "expr": "rate(kafka_messages_out[1m])",
-          "legendFormat": "{{cluster}}",
-          "refId": "E"
-        }
-      ]
-    }
-  ]
+    "refresh": "10s",
+    "schemaVersion": 26,
+    "version": 1,
+    "links": []
+  }
 }
