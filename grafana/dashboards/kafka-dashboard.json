@@ -1,115 +1,99 @@
 {
   "dashboard": {
     "id": null,
-    "uid": null,
-    "title": "Kafka Exporter Dashboard",
+    "uid": "kafka-dashboard",
+    "title": "Kafka Cluster Overview",
     "timezone": "browser",
-    "schemaVersion": 32,
+    "schemaVersion": 36,
     "version": 1,
     "refresh": "10s",
     "panels": [
       {
         "type": "stat",
         "title": "Total Topics",
-        "gridPos": {
-          "x": 0,
-          "y": 0,
-          "w": 6,
-          "h": 3
-        },
+        "gridPos": { "x": 0, "y": 0, "w": 6, "h": 3 },
+        "datasource": "Prometheus",
         "targets": [
           {
-            "expr": "sum(kafka_topic_count)",
-            "format": "time_series",
-            "legendFormat": "Total Topics"
+            "expr": "count(kafka_topic_partition_current_offset) by (topic)",
+            "refId": "A"
           }
         ]
       },
       {
         "type": "stat",
         "title": "Total Partitions",
-        "gridPos": {
-          "x": 6,
-          "y": 0,
-          "w": 6,
-          "h": 3
-        },
+        "gridPos": { "x": 6, "y": 0, "w": 6, "h": 3 },
+        "datasource": "Prometheus",
         "targets": [
           {
-            "expr": "sum(kafka_partition_count)",
-            "format": "time_series",
-            "legendFormat": "Total Partitions"
+            "expr": "sum(kafka_topic_partitions{partition!=\"\"})",
+            "refId": "A"
           }
         ]
       },
       {
         "type": "stat",
         "title": "Consumer Group Lag",
-        "gridPos": {
-          "x": 0,
-          "y": 3,
-          "w": 6,
-          "h": 3
-        },
+        "gridPos": { "x": 0, "y": 3, "w": 6, "h": 3 },
+        "datasource": "Prometheus",
         "targets": [
           {
-            "expr": "sum(kafka_consumergroup_group_lag) by (group)",
-            "format": "time_series",
-            "legendFormat": "{{group}} Lag"
+            "expr": "sum(kafka_consumer_group_lag{consumer_group!=\"\"}) by (consumer_group)",
+            "refId": "A"
           }
         ]
       },
       {
-        "type": "graph",
+        "type": "stat",
         "title": "Messages In per Second",
-        "gridPos": {
-          "x": 6,
-          "y": 3,
-          "w": 12,
-          "h": 6
-        },
+        "gridPos": { "x": 6, "y": 3, "w": 6, "h": 3 },
+        "datasource": "Prometheus",
         "targets": [
           {
             "expr": "rate(kafka_topic_partition_current_offset[1m])",
-            "format": "time_series",
-            "legendFormat": "Messages In"
+            "refId": "A"
           }
         ]
       },
       {
         "type": "stat",
-        "title": "Total Consumers per Group",
-        "gridPos": {
-          "x": 0,
-          "y": 6,
-          "w": 6,
-          "h": 3
-        },
+        "title": "Messages Out per Second",
+        "gridPos": { "x": 0, "y": 6, "w": 6, "h": 3 },
+        "datasource": "Prometheus",
         "targets": [
           {
-            "expr": "count(kafka_consumergroup_current_offset)",
-            "format": "time_series",
-            "legendFormat": "Total Consumers"
+            "expr": "rate(kafka_topic_partition_oldest_offset[1m])",
+            "refId": "A"
           }
         ]
       },
       {
         "type": "stat",
-        "title": "Broker Count",
-        "gridPos": {
-          "x": 6,
-          "y": 6,
-          "w": 6,
-          "h": 3
-        },
+        "title": "Total Consumers",
+        "gridPos": { "x": 6, "y": 6, "w": 6, "h": 3 },
+        "datasource": "Prometheus",
         "targets": [
           {
-            "expr": "kafka_broker_count",
-            "format": "time_series",
-            "legendFormat": "Total Brokers"
+            "expr": "count(kafka_consumer_group_current_offset) by (consumer_group)",
+            "refId": "A"
           }
         ]
       }
-    ]
-  }
+    ],
+    "templating": {
+      "list": [
+        {
+          "name": "datasource",
+          "type": "datasource",
+          "query": "prometheus",
+          "current": {
+            "text": "Prometheus",
+            "value": "Prometheus"
+          }
+        }
+      ]
+    }
+  },
+  "overwrite": true
 }
