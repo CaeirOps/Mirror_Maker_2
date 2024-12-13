@@ -28,7 +28,7 @@ services:
     ports:
       - "9308:9308"
     environment:
-      KAFKA_BROKERS: "${SOURCE_BROKER},${TARGET_BROKER}"
+      KAFKA_BROKERS: ${SOURCE_BROKER},${TARGET_BROKER}
 
   prometheus:
     image: prom/prometheus:latest
@@ -36,7 +36,7 @@ services:
     ports:
       - "9090:9090"
     volumes:
-      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+      - ./configs/prometheus.yml:/etc/prometheus/prometheus.yml
 
   grafana:
     image: grafana/grafana:latest
