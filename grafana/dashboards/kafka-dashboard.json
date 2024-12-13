@@ -3,77 +3,113 @@
     "id": null,
     "uid": null,
     "title": "Kafka Exporter Dashboard",
+    "timezone": "browser",
+    "schemaVersion": 32,
+    "version": 1,
+    "refresh": "10s",
     "panels": [
       {
         "type": "stat",
         "title": "Total Topics",
+        "gridPos": {
+          "x": 0,
+          "y": 0,
+          "w": 6,
+          "h": 3
+        },
         "targets": [
           {
             "expr": "sum(kafka_topic_count)",
-            "format": "time_series"
+            "format": "time_series",
+            "legendFormat": "Total Topics"
           }
         ]
       },
       {
         "type": "stat",
         "title": "Total Partitions",
+        "gridPos": {
+          "x": 6,
+          "y": 0,
+          "w": 6,
+          "h": 3
+        },
         "targets": [
           {
             "expr": "sum(kafka_partition_count)",
-            "format": "time_series"
+            "format": "time_series",
+            "legendFormat": "Total Partitions"
           }
         ]
       },
       {
         "type": "stat",
         "title": "Consumer Group Lag",
+        "gridPos": {
+          "x": 0,
+          "y": 3,
+          "w": 6,
+          "h": 3
+        },
         "targets": [
           {
             "expr": "sum(kafka_consumergroup_group_lag) by (group)",
-            "format": "time_series"
+            "format": "time_series",
+            "legendFormat": "{{group}} Lag"
           }
         ]
       },
       {
         "type": "graph",
         "title": "Messages In per Second",
+        "gridPos": {
+          "x": 6,
+          "y": 3,
+          "w": 12,
+          "h": 6
+        },
         "targets": [
           {
             "expr": "rate(kafka_topic_partition_current_offset[1m])",
-            "format": "time_series"
+            "format": "time_series",
+            "legendFormat": "Messages In"
           }
         ]
       },
       {
         "type": "stat",
         "title": "Total Consumers per Group",
+        "gridPos": {
+          "x": 0,
+          "y": 6,
+          "w": 6,
+          "h": 3
+        },
         "targets": [
           {
             "expr": "count(kafka_consumergroup_current_offset)",
-            "format": "time_series"
+            "format": "time_series",
+            "legendFormat": "Total Consumers"
           }
         ]
       },
       {
         "type": "stat",
         "title": "Broker Count",
+        "gridPos": {
+          "x": 6,
+          "y": 6,
+          "w": 6,
+          "h": 3
+        },
         "targets": [
           {
             "expr": "kafka_broker_count",
-            "format": "time_series"
+            "format": "time_series",
+            "legendFormat": "Total Brokers"
           }
         ]
       }
-    ],
-    "templating": {
-      "list": []
-    },
-    "annotations": {
-      "list": []
-    },
-    "refresh": "10s",
-    "schemaVersion": 26,
-    "version": 1,
-    "links": []
+    ]
   }
 }
