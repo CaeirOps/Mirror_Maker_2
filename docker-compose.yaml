@@ -1,17 +1,36 @@
-version: '3.9'
+version: '3.7'
+
 services:
-  kafka-ui:
-    image: provectuslabs/kafka-ui
-    container_name: kafka-ui
+  kafka-mirror-maker:
+    image: apache/kafka:3.9.0
+    container_name: kafka-mirror-maker
     ports:
-      - "8080:8080"
+      - "9093:9093"
     environment:
-      - KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS=$SOURCE_BROKER
-      - KAFKA_CLUSTERS_0_NAME=teste-1
-      - KAFKA_CLUSTERS_1_BOOTSTRAPSERVERS=$TARGET_BROKER
-      - KAFKA_CLUSTERS_1_NAME=teste-2
-      - KAFKA_HEAP_OPTS=-Xms512m -Xmx512m
-      - JAVA_OPTS=-Xms512m -Xmx512m
+      KAFKA_HEAP_OPTS: "-Xms512m -Xmx512m"
+      SOURCE_BROKER: ${SOURCE_BROKER}
+      TARGET_BROKER: ${TARGET_BROKER}
+    volumes:
+      - ./configs/MM2-Ativo-Passivo.properties:/opt/kafka/config/MM2-Ativo-Passivo.properties
+    entrypoint: |
+      sh -c "
+      sed -i 's|\\$SOURCE_BROKER|'$SOURCE_BROKER'|g' /opt/kafka/config/MM2-Ativo-Passivo.properties &&
+      sed -i 's|\\$TARGET_BROKER|'$TARGET_BROKER'|g' /opt/kafka/config/MM2-Ativo-Passivo.properties &&
+      /opt/kafka/bin/connect-mirror-maker.sh /opt/kafka/config/MM2-Ativo-Passivo.properties
+      "
+    depends_on:
+      - prometheus
+      - kafka-exporter
+
+  kafka-exporter:
+    image: bitnami/kafka-exporter:latest
+    container_name: kafka-exporter
+    ports:
+      - "9308:9308"
+    environment:
+      KAFKA_BROKERS: "${SOURCE_BROKER},${TARGET_BROKER}"
+    depends_on:
+      - kafka-mirror-maker
 
   prometheus:
     image: prom/prometheus:latest
@@ -19,30 +38,15 @@ services:
     ports:
       - "9090:9090"
     volumes:
-      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
 
   grafana:
     image: grafana/grafana:latest
     container_name: grafana
     ports:
       - "3000:3000"
-    environment:
-      - GF_SECURITY_ADMIN_USER=admin
-      - GF_SECURITY_ADMIN_PASSWORD=admin
     volumes:
-      - grafana-data:/var/lib/grafana
-      - ./grafana-provisioning:/etc/grafana/provisioning
-
-  jmx-exporter:
-    image: prom/jmx-exporter:latest
-    container_name: jmx-exporter
-    ports:
-      - "5556:5556"
-    volumes:
-      - ./jmx-config.yml:/config/config.yml
-    command: --config.file=/config/config.yml
-    environment:
-      - JAVA_OPTS=-javaagent:/jmx_prometheus_javaagent.jar=5556:/config/config.yml
-
-volumes:
-  grafana-data:
+      - ./grafana/provisioning:/etc/grafana/provisioning
+      - ./grafana/dashboards:/var/lib/grafana/dashboards
+    depends_on:
+      - prometheus

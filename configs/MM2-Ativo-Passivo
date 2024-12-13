@@ -2,11 +2,11 @@
 clusters=source,target
  
 # Conexão com o cluster de origem (source)
-source.bootstrap.servers=$SOURCE_BROKER_1,$SOURCE_BROKER_2
+source.bootstrap.servers=$SOURCE_BROKER
 source.security.protocol=PLAINTEXT
  
 # Conexão com o cluster de destino (target)
-target.bootstrap.servers=$TARGET_BROKER_1,$TARGET_BROKER_2
+target.bootstrap.servers=$TARGET_BROKER
 target.security.protocol=PLAINTEXT
  
 # Configuração do consumidor
