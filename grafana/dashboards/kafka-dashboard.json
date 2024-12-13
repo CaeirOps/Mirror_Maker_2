@@ -1,47 +1,130 @@
 {
-    "title": "Kafka Replication Dashboard",
-    "panels": [
-      {
-        "type": "graph",
-        "title": "Replication Latency",
-        "targets": [
-          {
-            "expr": "kafka_mirror_replication_latency_ms",
-            "legendFormat": "{{job}}"
-          }
-        ]
+  "annotations": {
+    "list": []
+  },
+  "editable": true,
+  "gnetId": null,
+  "graphTooltip": 0,
+  "id": null,
+  "iteration": 1652908678662,
+  "panels": [
+    {
+      "datasource": "Prometheus",
+      "gridPos": { "h": 8, "w": 6, "x": 0, "y": 0 },
+      "id": 1,
+      "options": {
+        "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
+        "showThresholdMarkers": true
       },
-      {
-        "type": "graph",
-        "title": "Offset Syncs",
-        "targets": [
-          {
-            "expr": "kafka_checkpoint_offset_syncs",
-            "legendFormat": "{{job}}"
-          }
-        ]
+      "targets": [
+        {
+          "expr": "count(kafka_topic_partitions{instance=~\".*\"})",
+          "legendFormat": "Total Partitions",
+          "refId": "A"
+        }
+      ],
+      "title": "Total Partitions Across Brokers",
+      "type": "stat"
+    },
+    {
+      "datasource": "Prometheus",
+      "gridPos": { "h": 8, "w": 6, "x": 6, "y": 0 },
+      "id": 2,
+      "options": {
+        "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
+        "showThresholdMarkers": true
       },
-      {
-        "type": "graph",
-        "title": "Messages Replicated",
-        "targets": [
-          {
-            "expr": "kafka_connect_task_total_messages",
-            "legendFormat": "{{task}}"
-          }
-        ]
+      "targets": [
+        {
+          "expr": "count(kafka_topic) by (topic)",
+          "legendFormat": "{{topic}}",
+          "refId": "B"
+        }
+      ],
+      "title": "Total Topics",
+      "type": "stat"
+    },
+    {
+      "datasource": "Prometheus",
+      "gridPos": { "h": 8, "w": 6, "x": 0, "y": 8 },
+      "id": 3,
+      "options": {
+        "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
+        "showThresholdMarkers": true
       },
-      {
-        "type": "singlestat",
-        "title": "Total Topics",
-        "targets": [
-          {
-            "expr": "sum(kafka_server_topic_partition_count)",
-            "legendFormat": "Total Topics"
-          }
-        ],
-        "format": "none",
-        "valueName": "current"
-      }
-    ]
-  }
+      "targets": [
+        {
+          "expr": "sum(kafka_server_brokertopicmetrics_messagesinpersec) by (broker)",
+          "legendFormat": "Broker: {{broker}}",
+          "refId": "C"
+        }
+      ],
+      "title": "Messages In Per Second",
+      "type": "stat"
+    },
+    {
+      "datasource": "Prometheus",
+      "gridPos": { "h": 8, "w": 6, "x": 6, "y": 8 },
+      "id": 4,
+      "options": {
+        "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
+        "showThresholdMarkers": true
+      },
+      "targets": [
+        {
+          "expr": "sum(kafka_consumer_lag) by (group, topic)",
+          "legendFormat": "Group: {{group}} / Topic: {{topic}}",
+          "refId": "D"
+        }
+      ],
+      "title": "Consumer Group Lag",
+      "type": "stat"
+    },
+    {
+      "datasource": "Prometheus",
+      "gridPos": { "h": 8, "w": 6, "x": 0, "y": 16 },
+      "id": 5,
+      "options": {
+        "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
+        "showThresholdMarkers": true
+      },
+      "targets": [
+        {
+          "expr": "count(kafka_consumergroup_members) by (group)",
+          "legendFormat": "Consumer Group: {{group}}",
+          "refId": "E"
+        }
+      ],
+      "title": "Total Consumers per Group",
+      "type": "stat"
+    },
+    {
+      "datasource": "Prometheus",
+      "gridPos": { "h": 8, "w": 6, "x": 6, "y": 16 },
+      "id": 6,
+      "options": {
+        "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
+        "showThresholdMarkers": true
+      },
+      "targets": [
+        {
+          "expr": "sum(kafka_server_brokertopicmetrics_bytesinpersec) by (broker)",
+          "legendFormat": "Broker: {{broker}}",
+          "refId": "F"
+        }
+      ],
+      "title": "Data In Per Second",
+      "type": "stat"
+    }
+  ],
+  "refresh": "10s",
+  "schemaVersion": 30,
+  "style": "dark",
+  "tags": ["kafka", "monitoring", "replication"],
+  "templating": {
+    "list": []
+  },
+  "time": { "from": "now-15m", "to": "now" },
+  "title": "Kafka Detailed Dashboard",
+  "version": 1
+}
