@@ -12,8 +12,8 @@ services:
       - ./configs/MM2-Ativo-Passivo.properties:/opt/kafka/config/MM2-Ativo-Passivo.properties
     entrypoint: |
       sh -c "
-      sed -i 's|\\$SOURCE_BROKER|'$SOURCE_BROKER'|g' /opt/kafka/config/MM2-Ativo-Passivo.properties &&
-      sed -i 's|\\$TARGET_BROKER|'$TARGET_BROKER'|g' /opt/kafka/config/MM2-Ativo-Passivo.properties &&
+      sed -i 's|SOURCE_BROKER|'$SOURCE_BROKER'|g' /opt/kafka/config/MM2-Ativo-Passivo.properties &&
+      sed -i 's|TARGET_BROKER|'$TARGET_BROKER'|g' /opt/kafka/config/MM2-Ativo-Passivo.properties &&
       /opt/kafka/bin/connect-mirror-maker.sh /opt/kafka/config/MM2-Ativo-Passivo.properties
       "
     depends_on:
