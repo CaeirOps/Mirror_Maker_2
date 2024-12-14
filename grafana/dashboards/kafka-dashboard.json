@@ -21,6 +21,15 @@
         "query": "label_values(kafka_consumergroup_lag, consumergroup)",
         "includeAll": true,
         "multi": true
+      },
+      {
+        "name": "topic",
+        "type": "query",
+        "label": "Topic",
+        "datasource": "Prometheus",
+        "query": "label_values(kafka_topic_partition_current_offset, topic)",
+        "includeAll": true,
+        "multi": true
       }
     ]
   },
@@ -28,7 +37,7 @@
     {
       "title": "Total Topics per Cluster",
       "type": "stat",
-      "gridPos": { "x": 0, "y": 0, "w": 6, "h": 4 },
+      "gridPos": { "x": 0, "y": 0, "w": 4, "h": 4 },
       "targets": [
         {
           "expr": "count(kafka_topic_partition_current_offset{cluster=\"$cluster\"}) by (topic)",
@@ -39,10 +48,21 @@
     {
       "title": "Total Consumer Groups",
       "type": "stat",
-      "gridPos": { "x": 6, "y": 0, "w": 6, "h": 4 },
+      "gridPos": { "x": 4, "y": 0, "w": 4, "h": 4 },
       "targets": [
         {
           "expr": "count(kafka_consumergroup_lag{cluster=\"$cluster\"}) by (consumergroup)",
+          "format": "time_series"
+        }
+      ]
+    },
+    {
+      "title": "Total Partitions per Cluster",
+      "type": "stat",
+      "gridPos": { "x": 8, "y": 0, "w": 4, "h": 4 },
+      "targets": [
+        {
+          "expr": "sum(kafka_topic_partition_count{cluster=\"$cluster\"})",
           "format": "time_series"
         }
       ]
@@ -53,7 +73,7 @@
       "gridPos": { "x": 0, "y": 4, "w": 12, "h": 6 },
       "targets": [
         {
-          "expr": "kafka_consumergroup_lag{cluster=\"$cluster\", consumergroup=\"$consumergroup\"}",
+          "expr": "kafka_consumergroup_lag{cluster=\"$cluster\", consumergroup=\"$consumergroup\", topic=\"$topic\"}",
           "format": "table"
         }
       ],
@@ -70,7 +90,7 @@
       "gridPos": { "x": 0, "y": 10, "w": 12, "h": 6 },
       "targets": [
         {
-          "expr": "kafka_topic_partition_current_offset{cluster=\"$cluster\"}",
+          "expr": "kafka_topic_partition_current_offset{cluster=\"$cluster\", topic=\"$topic\"}",
           "format": "table"
         }
       ],
@@ -86,7 +106,7 @@
       "gridPos": { "x": 0, "y": 16, "w": 12, "h": 6 },
       "targets": [
         {
-          "expr": "sum(kafka_topic_partition_current_offset{cluster=\"$cluster\"}) by (topic)",
+          "expr": "sum(kafka_topic_partition_current_offset{cluster=\"$cluster\", topic=\"$topic\"}) by (topic)",
           "format": "table"
         }
       ],
