@@ -27,6 +27,13 @@ Feito isso basta executar o docker-compose para provisionar o ambiente e iniciar
 docker-compose up -d
 '''
 
+> Para visualizar o status de cada cluster com a UI antes de iniciar a replicação, você pode iniciar apenas o service kafka-ui e após o termino da verificação utilize o comando acima para subir o restante dos serviços.
+> Para iniciar apenas 1 service, por exemplo do UI, utilize o comando abaixo:
+
+'''
+docker-compose up -d kafka-ui
+'''
+
 ---
 
 Para acompanhar o status da replicação temos o Prometheus e o Grafana:
