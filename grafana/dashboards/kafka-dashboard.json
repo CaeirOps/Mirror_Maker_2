@@ -1,164 +1,92 @@
 {
-  "annotations": {
-    "list": [
-      {
-        "builtIn": 1,
-        "datasource": "-- Grafana --",
-        "enable": true,
-        "hide": true,
-        "iconColor": "rgba(0, 211, 255, 1)",
-        "name": "Annotations & Alerts",
-        "type": "dashboard"
-      }
-    ]
-  },
-  "editable": true,
-  "gnetId": null,
-  "graphTooltip": 0,
-  "id": null,
-  "links": [],
+  "title": "Kafka Cluster Dashboard",
   "panels": [
     {
-      "datasource": "${DS_PROMETHEUS}",
-      "fieldConfig": {
-        "defaults": {},
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 6,
-        "w": 12,
-        "x": 0,
-        "y": 0
-      },
-      "id": 1,
-      "options": {
-        "orientation": "horizontal",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "showThresholdLabels": false,
-        "showThresholdMarkers": true
-      },
-      "pluginVersion": "9.2.4",
+      "type": "stat",
+      "title": "Total Topics per Cluster",
       "targets": [
         {
-          "expr": "kafka_consumergroup_lag",
-          "interval": "",
-          "legendFormat": "{{group}}",
-          "refId": "A"
+          "expr": "count(kafka_topic_partitions{cluster=\"$cluster\"}) by (topic)",
+          "format": "time_series"
         }
       ],
-      "title": "Consumer Group Lag",
-      "type": "stat"
+      "gridPos": { "x": 0, "y": 0, "w": 6, "h": 4 }
     },
     {
-      "datasource": "${DS_PROMETHEUS}",
-      "fieldConfig": {
-        "defaults": {},
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 6,
-        "w": 12,
-        "x": 12,
-        "y": 0
-      },
-      "id": 2,
-      "options": {
-        "orientation": "horizontal",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "showThresholdLabels": false,
-        "showThresholdMarkers": true
-      },
-      "pluginVersion": "9.2.4",
+      "type": "stat",
+      "title": "Total Partitions per Cluster",
       "targets": [
         {
-          "expr": "kafka_consumergroup_current_offset",
-          "interval": "",
-          "legendFormat": "{{group}}",
-          "refId": "A"
+          "expr": "sum(kafka_topic_partitions{cluster=\"$cluster\"})",
+          "format": "time_series"
         }
       ],
-      "title": "Consumer Group Current Offset",
-      "type": "stat"
+      "gridPos": { "x": 6, "y": 0, "w": 6, "h": 4 }
     },
     {
-      "datasource": "${DS_PROMETHEUS}",
-      "fieldConfig": {
-        "defaults": {},
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 6,
-        "w": 12,
-        "x": 0,
-        "y": 6
-      },
-      "id": 3,
-      "options": {
-        "orientation": "horizontal",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "showThresholdLabels": false,
-        "showThresholdMarkers": true
-      },
-      "pluginVersion": "9.2.4",
+      "type": "stat",
+      "title": "Total Consumer Groups",
       "targets": [
         {
-          "expr": "kafka_consumergroup_members",
-          "interval": "",
-          "legendFormat": "{{group}}",
-          "refId": "A"
+          "expr": "count(kafka_consumergroup_lag{cluster=\"$cluster\"}) by (consumergroup)",
+          "format": "time_series"
         }
       ],
-      "title": "Consumer Group Members",
-      "type": "stat"
+      "gridPos": { "x": 12, "y": 0, "w": 6, "h": 4 }
+    },
+    {
+      "type": "table",
+      "title": "Consumer Group Lag Details",
+      "targets": [
+        {
+          "expr": "kafka_consumergroup_lag{cluster=\"$cluster\"}",
+          "format": "time_series"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "align": "left",
+            "displayMode": "color-text",
+            "filterable": true
+          }
+        }
+      },
+      "gridPos": { "x": 0, "y": 4, "w": 24, "h": 8 }
+    },
+    {
+      "type": "table",
+      "title": "Consumer Group Topics",
+      "targets": [
+        {
+          "expr": "kafka_consumergroup_topic_current_offset{cluster=\"$cluster\"}",
+          "format": "time_series"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "align": "left",
+            "displayMode": "color-text",
+            "filterable": true
+          }
+        }
+      },
+      "gridPos": { "x": 0, "y": 12, "w": 24, "h": 8 }
     }
   ],
-  "refresh": "10s",
-  "schemaVersion": 36,
-  "style": "dark",
-  "tags": [],
   "templating": {
     "list": [
       {
-        "current": {
-          "selected": false,
-          "text": "All",
-          "value": "$__all"
-        },
-        "hide": 0,
-        "label": "Cluster",
+        "type": "query",
         "name": "cluster",
-        "options": [],
+        "label": "Cluster",
+        "datasource": "Prometheus",
         "query": "label_values(kafka_topic_partitions, cluster)",
-        "skipUrlSync": false,
-        "type": "query"
+        "multi": false,
+        "includeAll": false,
+        "refresh": 1
       }
     ]
-  },
-  "time": {
-    "from": "now-15m",
-    "to": "now"
-  },
-  "timepicker": {},
-  "timezone": "",
-  "title": "Kafka Consumers Overview",
-  "uid": null,
-  "version": 1
+  }
 }
