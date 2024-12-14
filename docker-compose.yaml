@@ -28,7 +28,8 @@ services:
       "
     depends_on:
       - prometheus
-      - kafka-exporter
+      - kafka-exporter-source
+      - kafka-exporter-target
 
   kafka-exporter-source:
     image: danielqsj/kafka-exporter:latest
