@@ -1,7 +1,6 @@
 {
   "title": "Kafka Replication Dashboard",
   "tags": ["kafka", "replication"],
-  "editable": true,
   "templating": {
     "list": [
       {
@@ -9,7 +8,7 @@
         "type": "query",
         "label": "Cluster",
         "datasource": "Prometheus",
-        "query": "label_values(kafka_topic_partition_current_offset, cluster)",
+        "query": "label_values(kafka_topic_partitions, cluster)",
         "includeAll": false,
         "multi": false
       },
@@ -27,7 +26,7 @@
         "type": "query",
         "label": "Topic",
         "datasource": "Prometheus",
-        "query": "label_values(kafka_topic_partition_current_offset, topic)",
+        "query": "label_values(kafka_topic_partitions, topic)",
         "includeAll": true,
         "multi": true
       }
@@ -40,7 +39,7 @@
       "gridPos": { "x": 0, "y": 0, "w": 4, "h": 4 },
       "targets": [
         {
-          "expr": "count(kafka_topic_partition_current_offset{cluster=\"$cluster\"}) by (topic)",
+          "expr": "count(kafka_topic_partitions{cluster=\"$cluster\"}) by (topic)",
           "format": "time_series"
         }
       ]
@@ -62,7 +61,7 @@
       "gridPos": { "x": 8, "y": 0, "w": 4, "h": 4 },
       "targets": [
         {
-          "expr": "sum(kafka_topic_partition_count{cluster=\"$cluster\"})",
+          "expr": "sum(kafka_topic_partitions{cluster=\"$cluster\"})",
           "format": "time_series"
         }
       ]
@@ -73,7 +72,7 @@
       "gridPos": { "x": 0, "y": 4, "w": 12, "h": 6 },
       "targets": [
         {
-          "expr": "kafka_consumergroup_lag{cluster=\"$cluster\", consumergroup=\"$consumergroup\", topic=\"$topic\"}",
+          "expr": "kafka_consumergroup_lag{cluster=\"$cluster\", consumergroup=~\"$consumergroup\", topic=\"$topic\"}",
           "format": "table"
         }
       ],
