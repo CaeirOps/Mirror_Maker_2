@@ -185,7 +185,7 @@
       "pluginVersion": "7.3.6",
       "targets": [
         {
-          "expr": "kafka_consumergroup_lag{cluster=~\"$cluster\"}",
+          "expr": "kafka_consumergroup_lag{cluster=~\"$cluster\", consumergroup=~\"$consumergroup\"}",
           "format": "table",
           "instant": true,
           "intervalFactor": 1,
@@ -214,6 +214,24 @@
         "name": "cluster",
         "options": [],
         "query": "label_values(kafka_topic_partitions, cluster)",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "type": "query"
+      },
+      {
+        "allValue": null,
+        "current": {},
+        "datasource": null,
+        "definition": "",
+        "hide": 0,
+        "includeAll": false,
+        "label": "Consumer Group",
+        "multi": false,
+        "name": "consumergroup",
+        "options": [],
+        "query": "label_values(kafka_consumergroup_lag{cluster=~\"$cluster\"}, consumergroup)",
         "refresh": 1,
         "regex": "",
         "skipUrlSync": false,
