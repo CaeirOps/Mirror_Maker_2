@@ -1,7 +1,29 @@
 {
   "title": "Kafka Replication Dashboard",
-  "editable": true,
   "tags": ["kafka", "replication"],
+  "editable": true,
+  "templating": {
+    "list": [
+      {
+        "name": "cluster",
+        "type": "query",
+        "label": "Cluster",
+        "datasource": "Prometheus",
+        "query": "label_values(kafka_topic_partition_current_offset, cluster)",
+        "includeAll": false,
+        "multi": false
+      },
+      {
+        "name": "consumergroup",
+        "type": "query",
+        "label": "Consumer Group",
+        "datasource": "Prometheus",
+        "query": "label_values(kafka_consumergroup_lag, consumergroup)",
+        "includeAll": true,
+        "multi": true
+      }
+    ]
+  },
   "panels": [
     {
       "title": "Total Topics per Cluster",
