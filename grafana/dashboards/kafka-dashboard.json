@@ -1,148 +1,164 @@
 {
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": "-- Grafana --",
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "gnetId": null,
+  "graphTooltip": 0,
   "id": null,
-  "uid": "kafka-replication-dashboard",
-  "title": "Kafka Replication Dashboard",
-  "tags": ["kafka", "replication", "exporter"],
-  "timezone": "browser",
-  "schemaVersion": 16,
-  "version": 0,
+  "links": [],
   "panels": [
     {
-      "title": "Total Topics",
-      "type": "stat",
-      "gridPos": {
-        "x": 0,
-        "y": 0,
-        "w": 6,
-        "h": 3
+      "datasource": "${DS_PROMETHEUS}",
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
       },
+      "gridPos": {
+        "h": 6,
+        "w": 12,
+        "x": 0,
+        "y": 0
+      },
+      "id": 1,
+      "options": {
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showThresholdLabels": false,
+        "showThresholdMarkers": true
+      },
+      "pluginVersion": "9.2.4",
       "targets": [
         {
-          "expr": "count(kafka_topic_partitions)",
-          "format": "time_series",
-          "legendFormat": "Total Topics",
+          "expr": "kafka_consumergroup_lag",
+          "interval": "",
+          "legendFormat": "{{group}}",
           "refId": "A"
         }
-      ]
-    },
-    {
-      "title": "Total Partitions",
-      "type": "stat",
-      "gridPos": {
-        "x": 6,
-        "y": 0,
-        "w": 6,
-        "h": 3
-      },
-      "targets": [
-        {
-          "expr": "sum(kafka_topic_partitions)",
-          "format": "time_series",
-          "legendFormat": "Total Partitions",
-          "refId": "B"
-        }
-      ]
-    },
-    {
+      ],
       "title": "Consumer Group Lag",
-      "type": "graph",
+      "type": "stat"
+    },
+    {
+      "datasource": "${DS_PROMETHEUS}",
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      },
       "gridPos": {
-        "x": 0,
-        "y": 3,
+        "h": 6,
         "w": 12,
-        "h": 6
+        "x": 12,
+        "y": 0
       },
+      "id": 2,
+      "options": {
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showThresholdLabels": false,
+        "showThresholdMarkers": true
+      },
+      "pluginVersion": "9.2.4",
       "targets": [
         {
-          "expr": "sum(kafka_consumergroup_lag) by (group, topic)",
-          "format": "time_series",
-          "legendFormat": "{{group}} / {{topic}}",
-          "refId": "C"
+          "expr": "kafka_consumergroup_current_offset",
+          "interval": "",
+          "legendFormat": "{{group}}",
+          "refId": "A"
         }
-      ]
+      ],
+      "title": "Consumer Group Current Offset",
+      "type": "stat"
     },
     {
-      "title": "Messages Produced per Second",
-      "type": "graph",
+      "datasource": "${DS_PROMETHEUS}",
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      },
       "gridPos": {
+        "h": 6,
+        "w": 12,
         "x": 0,
-        "y": 9,
-        "w": 6,
-        "h": 6
+        "y": 6
       },
+      "id": 3,
+      "options": {
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showThresholdLabels": false,
+        "showThresholdMarkers": true
+      },
+      "pluginVersion": "9.2.4",
       "targets": [
         {
-          "expr": "sum(rate(kafka_topic_partition_current_offset[1m]))",
-          "format": "time_series",
-          "legendFormat": "Produced",
-          "refId": "D"
+          "expr": "kafka_consumergroup_members",
+          "interval": "",
+          "legendFormat": "{{group}}",
+          "refId": "A"
         }
-      ]
-    },
-    {
-      "title": "Messages Consumed per Second",
-      "type": "graph",
-      "gridPos": {
-        "x": 6,
-        "y": 9,
-        "w": 6,
-        "h": 6
-      },
-      "targets": [
-        {
-          "expr": "sum(rate(kafka_consumergroup_current_offset[1m]))",
-          "format": "time_series",
-          "legendFormat": "Consumed",
-          "refId": "E"
-        }
-      ]
-    },
-    {
-      "title": "Under Replicated Partitions",
-      "type": "stat",
-      "gridPos": {
-        "x": 0,
-        "y": 15,
-        "w": 6,
-        "h": 3
-      },
-      "targets": [
-        {
-          "expr": "sum(kafka_topic_partition_under_replicated_partition)",
-          "format": "time_series",
-          "legendFormat": "Under Replicated",
-          "refId": "F"
-        }
-      ]
-    },
-    {
-      "title": "Partitions In Sync",
-      "type": "stat",
-      "gridPos": {
-        "x": 6,
-        "y": 15,
-        "w": 6,
-        "h": 3
-      },
-      "targets": [
-        {
-          "expr": "sum(kafka_topic_partition_in_sync_replica)",
-          "format": "time_series",
-          "legendFormat": "In Sync",
-          "refId": "G"
-        }
-      ]
+      ],
+      "title": "Consumer Group Members",
+      "type": "stat"
     }
   ],
+  "refresh": "10s",
+  "schemaVersion": 36,
+  "style": "dark",
+  "tags": [],
   "templating": {
     "list": [
       {
-        "type": "query",
-        "name": "cluster",
+        "current": {
+          "selected": false,
+          "text": "All",
+          "value": "$__all"
+        },
+        "hide": 0,
         "label": "Cluster",
-        "datasource": "Prometheus",
-        "query": "label_values(kafka_topic_partitions, cluster)"
+        "name": "cluster",
+        "options": [],
+        "query": "label_values(kafka_topic_partitions, cluster)",
+        "skipUrlSync": false,
+        "type": "query"
       }
     ]
-  }
+  },
+  "time": {
+    "from": "now-15m",
+    "to": "now"
+  },
+  "timepicker": {},
+  "timezone": "",
+  "title": "Kafka Consumers Overview",
+  "uid": null,
+  "version": 1
 }
