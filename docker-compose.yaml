@@ -30,14 +30,21 @@ services:
       - prometheus
       - kafka-exporter
 
-  kafka-exporter:
+  kafka-exporter-source:
     image: danielqsj/kafka-exporter:latest
-    container_name: kafka-exporter
+    container_name: kafka-exporter-source
     ports:
       - "9308:9308"
-    command: 
+    command:
       - "--kafka.server=${SOURCE_BROKER_1}"
       - "--kafka.server=${SOURCE_BROKER_2}"
+
+  kafka-exporter-target:
+    image: danielqsj/kafka-exporter:latest
+    container_name: kafka-exporter-target
+    ports:
+      - "9309:9308" # Porta diferente para o segundo exporter
+    command:
       - "--kafka.server=${TARGET_BROKER_1}"
       - "--kafka.server=${TARGET_BROKER_2}"
 
