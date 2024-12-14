@@ -4,96 +4,96 @@
     "uid": "kafka-cluster-overview",
     "title": "Kafka Cluster Overview",
     "timezone": "browser",
-    "schemaVersion": 36,
-    "version": 0,
+    "schemaVersion": 30,
+    "version": 1,
     "refresh": "10s",
     "panels": [
       {
         "type": "stat",
-        "title": "Total Topics",
-        "gridPos": { "x": 0, "y": 0, "w": 6, "h": 3 },
+        "title": "Total Topics per Cluster",
         "datasource": "Prometheus",
         "targets": [
           {
-            "expr": "count(kafka_topic_partition_current_offset) by (topic)",
-            "refId": "A"
+            "expr": "sum(kafka_topics{job=\"kafka-exporter\"})",
+            "legendFormat": "Total Topics"
           }
-        ]
+        ],
+        "gridPos": {
+          "x": 0,
+          "y": 0,
+          "w": 6,
+          "h": 4
+        }
       },
       {
         "type": "stat",
-        "title": "Total Partitions",
-        "gridPos": { "x": 6, "y": 0, "w": 6, "h": 3 },
+        "title": "Total Partitions per Cluster",
         "datasource": "Prometheus",
         "targets": [
           {
-            "expr": "sum(kafka_topic_partitions{partition!=\"\"})",
-            "refId": "A"
+            "expr": "sum(kafka_topic_partition_count{job=\"kafka-exporter\"})",
+            "legendFormat": "Total Partitions"
           }
-        ]
+        ],
+        "gridPos": {
+          "x": 6,
+          "y": 0,
+          "w": 6,
+          "h": 4
+        }
       },
       {
         "type": "stat",
-        "title": "Consumer Group Lag",
-        "gridPos": { "x": 0, "y": 3, "w": 6, "h": 3 },
+        "title": "Consumer Group Lag per Cluster",
         "datasource": "Prometheus",
         "targets": [
           {
-            "expr": "sum(kafka_consumer_group_lag{consumer_group!=\"\"}) by (consumer_group)",
-            "refId": "A"
+            "expr": "sum(kafka_consumer_group_current_offset - kafka_consumer_group_lag{job=\"kafka-exporter\"})",
+            "legendFormat": "Lag"
           }
-        ]
+        ],
+        "gridPos": {
+          "x": 0,
+          "y": 4,
+          "w": 6,
+          "h": 4
+        }
       },
       {
         "type": "stat",
         "title": "Messages In per Second",
-        "gridPos": { "x": 6, "y": 3, "w": 6, "h": 3 },
         "datasource": "Prometheus",
         "targets": [
           {
-            "expr": "rate(kafka_topic_partition_current_offset[1m])",
-            "refId": "A"
+            "expr": "sum(rate(kafka_server_brokertopicmetrics_messagesin_total[1m]))",
+            "legendFormat": "In/sec"
           }
-        ]
+        ],
+        "gridPos": {
+          "x": 6,
+          "y": 4,
+          "w": 6,
+          "h": 4
+        }
       },
       {
         "type": "stat",
         "title": "Messages Out per Second",
-        "gridPos": { "x": 0, "y": 6, "w": 6, "h": 3 },
         "datasource": "Prometheus",
         "targets": [
           {
-            "expr": "rate(kafka_topic_partition_oldest_offset[1m])",
-            "refId": "A"
+            "expr": "sum(rate(kafka_server_brokertopicmetrics_bytesout_total[1m]))",
+            "legendFormat": "Out/sec"
           }
-        ]
-      },
-      {
-        "type": "stat",
-        "title": "Total Consumers",
-        "gridPos": { "x": 6, "y": 6, "w": 6, "h": 3 },
-        "datasource": "Prometheus",
-        "targets": [
-          {
-            "expr": "count(kafka_consumer_group_current_offset) by (consumer_group)",
-            "refId": "A"
-          }
-        ]
-      }
-    ],
-    "templating": {
-      "list": [
-        {
-          "name": "datasource",
-          "type": "datasource",
-          "query": "prometheus",
-          "current": {
-            "text": "Prometheus",
-            "value": "Prometheus"
-          }
+        ],
+        "gridPos": {
+          "x": 0,
+          "y": 8,
+          "w": 6,
+          "h": 4
         }
-      ]
-    }
+      }
+    ]
   },
   "overwrite": true
 }
