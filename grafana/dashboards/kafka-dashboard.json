@@ -1,254 +1,80 @@
 {
-  "annotations": {
-    "list": []
-  },
-  "editable": true,
-  "gnetId": null,
-  "graphTooltip": 0,
-  "id": null,
-  "iteration": 1657645608434,
-  "links": [],
-  "panels": [
-    {
-      "collapsed": false,
-      "gridPos": {
-        "h": 2,
-        "w": 24,
-        "x": 0,
-        "y": 0
-      },
-      "id": 1,
-      "panels": [],
-      "title": "Cluster Overview",
-      "type": "row"
-    },
-    {
-      "datasource": null,
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "red",
-                "value": 10
-              }
-            ]
+  "dashboard": {
+    "title": "Kafka Replication Dashboard",
+    "editable": true,
+    "tags": ["kafka", "replication"],
+    "panels": [
+      {
+        "title": "Total Topics per Cluster",
+        "type": "stat",
+        "gridPos": { "x": 0, "y": 0, "w": 6, "h": 4 },
+        "targets": [
+          {
+            "expr": "count(kafka_topic_partition_current_offset{cluster=\"$cluster\"}) by (topic)",
+            "format": "time_series"
           }
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 4,
-        "w": 6,
-        "x": 0,
-        "y": 2
-      },
-      "id": 2,
-      "options": {
-        "colorMode": "value",
-        "graphMode": "area",
-        "justifyMode": "auto",
-        "orientation": "auto",
-        "reduceOptions": {
-          "calcs": ["lastNotNull"],
-          "fields": "",
-          "values": false
-        }
-      },
-      "pluginVersion": "7.3.6",
-      "targets": [
-        {
-          "expr": "count(kafka_topic_partitions{cluster=~\"$cluster\"})",
-          "format": "time_series",
-          "instant": true,
-          "intervalFactor": 1,
-          "legendFormat": "",
-          "refId": "A"
-        }
-      ],
-      "title": "Total Partitions per Cluster",
-      "type": "stat"
-    },
-    {
-      "datasource": null,
-      "fieldConfig": {
-        "defaults": {},
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 4,
-        "w": 6,
-        "x": 6,
-        "y": 2
-      },
-      "id": 3,
-      "options": {
-        "colorMode": "value",
-        "graphMode": "area",
-        "justifyMode": "auto",
-        "orientation": "auto",
-        "reduceOptions": {
-          "calcs": ["lastNotNull"],
-          "fields": "",
-          "values": false
-        }
-      },
-      "pluginVersion": "7.3.6",
-      "targets": [
-        {
-          "expr": "count(kafka_topic_partitions{cluster=~\"$cluster\"})",
-          "format": "time_series",
-          "instant": true,
-          "intervalFactor": 1,
-          "legendFormat": "",
-          "refId": "A"
-        }
-      ],
-      "title": "Total Topics per Cluster",
-      "type": "stat"
-    },
-    {
-      "datasource": null,
-      "fieldConfig": {
-        "defaults": {},
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 4,
-        "w": 6,
-        "x": 12,
-        "y": 2
-      },
-      "id": 4,
-      "options": {
-        "colorMode": "value",
-        "graphMode": "area",
-        "justifyMode": "auto",
-        "orientation": "auto",
-        "reduceOptions": {
-          "calcs": ["lastNotNull"],
-          "fields": "",
-          "values": false
-        }
-      },
-      "pluginVersion": "7.3.6",
-      "targets": [
-        {
-          "expr": "count(kafka_consumergroup_lag{cluster=~\"$cluster\"})",
-          "format": "time_series",
-          "instant": true,
-          "intervalFactor": 1,
-          "legendFormat": "",
-          "refId": "A"
-        }
-      ],
-      "title": "Total Consumer Groups",
-      "type": "stat"
-    },
-    {
-      "collapsed": false,
-      "gridPos": {
-        "h": 2,
-        "w": 24,
-        "x": 0,
-        "y": 6
-      },
-      "id": 5,
-      "panels": [],
-      "title": "Consumer Lag Details",
-      "type": "row"
-    },
-    {
-      "datasource": null,
-      "fieldConfig": {
-        "defaults": {},
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 24,
-        "x": 0,
-        "y": 8
-      },
-      "id": 6,
-      "options": {
-        "showHeader": true
-      },
-      "pluginVersion": "7.3.6",
-      "targets": [
-        {
-          "expr": "kafka_consumergroup_lag{cluster=~\"$cluster\", consumergroup=~\"$consumergroup\"}",
-          "format": "table",
-          "instant": true,
-          "intervalFactor": 1,
-          "legendFormat": "",
-          "refId": "A"
-        }
-      ],
-      "title": "Consumer Group Lag Table",
-      "type": "table"
-    }
-  ],
-  "schemaVersion": 30,
-  "style": "dark",
-  "tags": ["kafka", "monitoring"],
-  "templating": {
-    "list": [
-      {
-        "allValue": null,
-        "current": {},
-        "datasource": null,
-        "definition": "",
-        "hide": 0,
-        "includeAll": false,
-        "label": "Cluster",
-        "multi": false,
-        "name": "cluster",
-        "options": [],
-        "query": "label_values(kafka_topic_partitions, cluster)",
-        "refresh": 1,
-        "regex": "",
-        "skipUrlSync": false,
-        "sort": 0,
-        "type": "query"
+        ]
       },
       {
-        "allValue": null,
-        "current": {},
-        "datasource": null,
-        "definition": "",
-        "hide": 0,
-        "includeAll": false,
-        "label": "Consumer Group",
-        "multi": false,
-        "name": "consumergroup",
-        "options": [],
-        "query": "label_values(kafka_consumergroup_lag{cluster=~\"$cluster\"}, consumergroup)",
-        "refresh": 1,
-        "regex": "",
-        "skipUrlSync": false,
-        "sort": 0,
-        "type": "query"
+        "title": "Total Consumer Groups",
+        "type": "stat",
+        "gridPos": { "x": 6, "y": 0, "w": 6, "h": 4 },
+        "targets": [
+          {
+            "expr": "count(kafka_consumergroup_lag{cluster=\"$cluster\"}) by (consumergroup)",
+            "format": "time_series"
+          }
+        ]
+      },
+      {
+        "title": "Lag by Consumer Group and Partition",
+        "type": "table",
+        "gridPos": { "x": 0, "y": 4, "w": 12, "h": 6 },
+        "targets": [
+          {
+            "expr": "kafka_consumergroup_lag{cluster=\"$cluster\", consumergroup=\"$consumergroup\"}",
+            "format": "table"
+          }
+        ],
+        "columns": [
+          { "text": "Consumer Group", "value": "consumergroup" },
+          { "text": "Topic", "value": "topic" },
+          { "text": "Partition", "value": "partition" },
+          { "text": "Lag", "value": "value" }
+        ]
+      },
+      {
+        "title": "Offsets by Topic and Partition",
+        "type": "table",
+        "gridPos": { "x": 0, "y": 10, "w": 12, "h": 6 },
+        "targets": [
+          {
+            "expr": "kafka_topic_partition_current_offset{cluster=\"$cluster\"}",
+            "format": "table"
+          }
+        ],
+        "columns": [
+          { "text": "Topic", "value": "topic" },
+          { "text": "Partition", "value": "partition" },
+          { "text": "Offset", "value": "value" }
+        ]
+      },
+      {
+        "title": "Total Messages per Topic",
+        "type": "table",
+        "gridPos": { "x": 0, "y": 16, "w": 12, "h": 6 },
+        "targets": [
+          {
+            "expr": "sum(kafka_topic_partition_current_offset{cluster=\"$cluster\"}) by (topic)",
+            "format": "table"
+          }
+        ],
+        "columns": [
+          { "text": "Topic", "value": "topic" },
+          { "text": "Messages", "value": "value" }
+        ]
       }
     ]
   },
-  "time": {
-    "from": "now-1h",
-    "to": "now"
-  },
-  "timepicker": {
-    "refresh_intervals": ["10s", "30s", "1m", "5m"]
-  },
-  "timezone": "",
-  "title": "Kafka Cluster Monitoring",
-  "uid": null,
-  "version": 1
+  "overwrite": true
 }
