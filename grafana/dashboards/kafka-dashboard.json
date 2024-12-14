@@ -39,7 +39,7 @@
       "gridPos": { "x": 0, "y": 0, "w": 4, "h": 4 },
       "targets": [
         {
-          "expr": "count(kafka_topic_partitions{cluster=\"$cluster\"}) by (topic)",
+          "expr": "count(kafka_topic_partitions{cluster=\"$cluster\", topic=~\"$topic\"}) by (topic)",
           "format": "time_series"
         }
       ]
@@ -61,7 +61,7 @@
       "gridPos": { "x": 8, "y": 0, "w": 4, "h": 4 },
       "targets": [
         {
-          "expr": "sum(kafka_topic_partitions{cluster=\"$cluster\"})",
+          "expr": "sum(kafka_topic_partitions{cluster=\"$cluster\", topic=~\"$topic\"})",
           "format": "time_series"
         }
       ]
@@ -72,7 +72,7 @@
       "gridPos": { "x": 0, "y": 4, "w": 12, "h": 6 },
       "targets": [
         {
-          "expr": "kafka_consumergroup_lag{cluster=\"$cluster\", consumergroup=~\"$consumergroup\", topic=\"$topic\"}",
+          "expr": "kafka_consumergroup_lag{cluster=\"$cluster\", consumergroup=~\"$consumergroup\", topic=~\"$topic\"}",
           "format": "table"
         }
       ],
@@ -89,7 +89,7 @@
       "gridPos": { "x": 0, "y": 10, "w": 12, "h": 6 },
       "targets": [
         {
-          "expr": "kafka_topic_partition_current_offset{cluster=\"$cluster\", topic=\"$topic\"}",
+          "expr": "kafka_topic_partition_current_offset{cluster=\"$cluster\", topic=~\"$topic\"}",
           "format": "table"
         }
       ],
@@ -105,7 +105,7 @@
       "gridPos": { "x": 0, "y": 16, "w": 12, "h": 6 },
       "targets": [
         {
-          "expr": "sum(kafka_topic_partition_current_offset{cluster=\"$cluster\", topic=\"$topic\"}) by (topic)",
+          "expr": "sum(kafka_topic_partition_current_offset{cluster=\"$cluster\", topic=~\"$topic\"}) by (topic)",
           "format": "table"
         }
       ],
