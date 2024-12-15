@@ -40,3 +40,4 @@ Para acompanhar o status da replicação temos o Prometheus e o Grafana:
 
 - Prometheus: http://localhost:9090
 - Grafana: http://localhost:3000
+- Kafka UI: http://localhost:8080
