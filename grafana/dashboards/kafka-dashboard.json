@@ -36,7 +36,7 @@
     {
       "title": "Total Topics per Cluster",
       "type": "stat",
-      "gridPos": { "x": 0, "y": 0, "w": 4, "h": 4 },
+      "gridPos": { "x": 0, "y": 0, "w": 12, "h": 4 },
       "targets": [
         {
           "expr": "count(kafka_topic_partitions{cluster=\"$cluster\", topic=~\"$topic\"}) by (cluster)",
@@ -60,7 +60,7 @@
     {
       "title": "Total Partitions per Cluster",
       "type": "stat",
-      "gridPos": { "x": 8, "y": 0, "w": 4, "h": 4 },
+      "gridPos": { "x": 12, "y": 0, "w": 12, "h": 4 },
       "targets": [
         {
           "expr": "sum(kafka_topic_partitions{cluster=\"$cluster\", topic=~\"$topic\"})",
