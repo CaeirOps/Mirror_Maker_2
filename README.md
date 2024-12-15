@@ -8,6 +8,7 @@ Utiliza um docker compose que provisiona:
 - Prometheus
 - Kafka Exporter
 - Grafana
+- Kafka UI
 
 ---
 
