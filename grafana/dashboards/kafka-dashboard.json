@@ -39,18 +39,18 @@
       "gridPos": { "x": 0, "y": 0, "w": 4, "h": 4 },
       "targets": [
         {
-          "expr": "count(kafka_topic_partitions{cluster=\"$cluster\", topic=~\"$topic\"}) by (topic)",
+          "expr": "count(kafka_topic_partitions{cluster=\"$cluster\", topic=~\"$topic\"}) by (cluster)",
           "format": "time_series"
         }
       ]
     },
     {
-      "title": "Total Consumer Groups",
+      "title": "Total Consumer Groups Lag",
       "type": "stat",
       "gridPos": { "x": 4, "y": 0, "w": 4, "h": 4 },
       "targets": [
         {
-          "expr": "count(kafka_consumergroup_lag{cluster=\"$cluster\"}) by (consumergroup)",
+          "expr": "sum(kafka_consumergroup_lag{cluster=\"$cluster\", topic=~\"$topic\"}) by (consumergroup)",
           "format": "time_series"
         }
       ]
