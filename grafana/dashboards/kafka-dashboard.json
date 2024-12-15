@@ -104,7 +104,7 @@
     {
       "title": "Total Messages per Topic",
       "type": "table",
-      "gridPos": { "x": 0, "y": 22, "w": 0, "h": 6 },
+      "gridPos": { "x": 0, "y": 22, "w": 24, "h": 6 },
       "targets": [
         {
           "expr": "sum(kafka_topic_partition_current_offset{cluster=\"$cluster\", topic=~\"$topic\"}) by (topic)",
