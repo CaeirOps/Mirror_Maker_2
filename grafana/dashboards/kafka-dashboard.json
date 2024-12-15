@@ -47,7 +47,7 @@
     {
       "title": "Total Consumer Groups Lag",
       "type": "stat",
-      "gridPos": { "x": 4, "y": 0, "w": 4, "h": 4 },
+      "gridPos": { "x": 0, "y": 4, "w": 12, "h": 6 },
       "targets": [
         {
           "expr": "sum(kafka_consumergroup_lag{cluster=\"$cluster\", topic=~\"$topic\"}) by (consumergroup)",
@@ -71,7 +71,7 @@
     {
       "title": "Lag by Consumer Group and Partition",
       "type": "table",
-      "gridPos": { "x": 0, "y": 4, "w": 12, "h": 6 },
+      "gridPos": { "x": 0, "y": 10, "w": 12, "h": 6 },
       "targets": [
         {
           "expr": "kafka_consumergroup_lag{cluster=\"$cluster\", consumergroup=~\"$consumergroup\", topic=~\"$topic\"}",
@@ -88,7 +88,7 @@
     {
       "title": "Offsets by Topic and Partition",
       "type": "table",
-      "gridPos": { "x": 0, "y": 10, "w": 12, "h": 6 },
+      "gridPos": { "x": 0, "y": 16, "w": 12, "h": 6 },
       "targets": [
         {
           "expr": "kafka_topic_partition_current_offset{cluster=\"$cluster\", topic=~\"$topic\"}",
@@ -104,7 +104,7 @@
     {
       "title": "Total Messages per Topic",
       "type": "table",
-      "gridPos": { "x": 0, "y": 16, "w": 12, "h": 6 },
+      "gridPos": { "x": 0, "y": 22, "w": 12, "h": 6 },
       "targets": [
         {
           "expr": "sum(kafka_topic_partition_current_offset{cluster=\"$cluster\", topic=~\"$topic\"}) by (topic)",
