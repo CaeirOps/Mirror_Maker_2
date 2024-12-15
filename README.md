@@ -19,6 +19,7 @@ Para iniciar a utilização edit o arquivo .env preenchendo com os endereços co
 Após a edição do arquivo .env execute o setup.sh para garantir a instalação do docker e do docker-compose:
 
 '''
+sudo chmod +x setup.sh && \
 sudo ./setup.sh
 '''
 
