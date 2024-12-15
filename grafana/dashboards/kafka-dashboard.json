@@ -51,6 +51,8 @@
       "targets": [
         {
           "expr": "sum(kafka_consumergroup_lag{cluster=\"$cluster\", topic=~\"$topic\"}) by (consumergroup)",
+          "legendFormat": "{{ consumergroup }}",
+          "refId": "A",
           "format": "time_series"
         }
       ]
